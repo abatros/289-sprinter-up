@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Galdeano&family=Nunito:ital,wght@0,500;0,800;1,700&display=swap');
+
+body {
+  -padding: 10px;
+  font-family: sans-serif;
+}
+
+hbox, .hbox {
+  display:flex;
+  flex-direction: row;
+}
+
+hbox.qc {
+  justify-content: center;
+}
+hbox.qr {
+  justify-content: flex-end;
+}
+
+hbox.qj {
+  justify-content: space-between;
+}
+
+vbox, .vbox {
+  display:flex;
+  flex-direction: column;
+}
+
+vbox.ql {
+  align-items: flex-start;
+}
+
+vbox.qc {
+  align-items: center;
+}
+
+vbox.qr {
+  align-items: flex-end;
+}
+
+a {
+    all: unset;
+    cursor: pointer;
+}
+
+
+td .ql {
+  text-align: left;
+}
+
+td .qc {
+  text-align: center;
+}
