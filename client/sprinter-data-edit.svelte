@@ -73,9 +73,11 @@ function detect_double_reading(o={}) {
       **/
 			;(verbose >0) && console.log(`detect-double-reading@179 j:${j} sid:${row.fw.sid}`,row)
       assert(j>0, `fatal@54 leg[${j}]:${row.dist} g:${group_dist}`)
-      sdata[j-1].wrong_reading = 'wrong-reading';
-      sdata[j].wrong_reading = 'wrong-reading';
-      if (auto) sdata[j-1].active = false;
+      if (Math.abs(row.fw.dh + row.bw.dh) > 0.005) {
+        sdata[j-1].wrong_reading = 'wrong-reading';
+        sdata[j].wrong_reading = 'wrong-reading';
+        if (auto) sdata[j-1].active = false;
+      }
     }
     group_dist = row.dist;
   })

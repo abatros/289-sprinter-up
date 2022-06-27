@@ -20,6 +20,7 @@ function ae(q, report) {
 
 
 <style>
+
 td {
   text-align: right;
 }
@@ -76,5 +77,7 @@ td {
 
   </tbody>
   </table>
+
+<vtop>bbbbb</vtop>
 
 </vbox>

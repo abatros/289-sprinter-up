@@ -1,5 +1,7 @@
 import XLSX from 'xlsx';
 
+import {xlsx2json} from '289-sprinter-lib'
+
 const verbose =0;
 
 export function process_xlsx_file (input_file) {
@@ -40,7 +42,10 @@ function process_xlsx2_data(e, o={}) {
 }
 
 
-function xlsx2json(xlsx, o={}) {
+
+
+
+function xlsx2json_Obsolete(xlsx, o={}) {
   const {verbose} = o;
   const options_a = {
     cellDates:false

@@ -229,7 +229,7 @@ table {
 	-display:grid;
 	column-gap:0;
 	table-layout: fixed;
-  width: 80%;
+  width: 100%;
 }
 tr.head td {
   text-align: center;
@@ -332,17 +332,17 @@ td .qc {
 -->
 
 
-<vbox class="qr" style="width:80%; margin:0 0 3px 0;">
+<vbox class="qr" style="width:100%; margin:0 0 3px 0;">
   <Selector_ae bind:category={cat_ae} on:change={change_ae} />
 </vbox>
 
 
-<vbox class="qr" style="width:80%; margin:10px 0px -30px 0; padding-right:100px;">
+<vbox class="qr" style="width:95%; margin:10px 0px -30px 0; padding-right:50px;">
   <hbox style="width:400px;height:20px; border-top:1px solid brown; border-right:1px solid brown;"></hbox>
 </vbox>
 
 
-<hbox class="qr" style="width:80%; margin:0 0px 10px 0; padding: 0 100px 0 0;">
+<hbox class="qr" style="width:95%; margin:0 0px 10px 0; padding: 0 50px 0 0;">
   <Button1 group={group1} tag={'step-error'} action={select_com.bind({tag:'step-error'})}>Step Error</Button1>
   <span>&emsp;</span>
   <Button1 group={group1} tag={'cumulative-error'} action={select_com.bind({tag:'cumulative-error'})}>Cumulative Error</Button1>
@@ -361,11 +361,11 @@ td .qc {
   <td style="width:60px;">FW</td>
 	<td style="width:180px;">Station Identification</td>
 	<td style="width:15px;"></td>
-  <td>dH</td>
-  <td>dist</td>
-	<td>BW</td>
-	<td>dH</td>
-  <td style="text-align:center;">dist</td>
+  <td style="width:45px;">dH</td>
+  <td style="width:45px;">dist</td>
+	<td style="width:45px;">BW</td>
+	<td style="width:45px;">dH</td>
+  <td style="width:45px;text-align:center;">dist</td>
   <td style="width:80px; text-align:center;">
     <button type="button" name="button" on:click={resync_project}>{selected_com}</button>
   </td>

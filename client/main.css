@@ -1,42 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Galdeano&family=Nunito:ital,wght@0,500;0,800;1,700&display=swap');
+@import "./node_modules/295-tex-css"
+
 
 body {
-  -padding: 10px;
   font-family: sans-serif;
+  --font-family: galdeano;
+  margin:0px; padding:0px;
+  line-height: 1.4em;
+  font-weight:500;
+  font-optical-sizing: none;
+  background-color: rgb(191,191,191);
+  width:100%;
+  font-size: 15px;
 }
 
-hbox, .hbox {
+
+#app {
   display:flex;
-  flex-direction: row;
+  border:1px solid rgba(255,255,255,0.2);
+  width:1000px;
+  -height:100%;
+  margin:0 auto;
+  padding:10px;
 }
 
-hbox.qc {
-  justify-content: center;
-}
-hbox.qr {
-  justify-content: flex-end;
-}
-
-hbox.qj {
-  justify-content: space-between;
-}
-
-vbox, .vbox {
-  display:flex;
-  flex-direction: column;
-}
-
-vbox.ql {
-  align-items: flex-start;
-}
-
-vbox.qc {
-  align-items: center;
-}
-
-vbox.qr {
-  align-items: flex-end;
-}
 
 a {
     all: unset;

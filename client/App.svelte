@@ -70,12 +70,10 @@ h5 {
 </div>
 -->
 
-<vbox id="pageContent" class="container qc">
-  <svelte:component this={router[$curRoute]} />
-</vbox>
+<svelte:component this={router[$curRoute]} />
+
 
 <!--
-<div id="pageContent">
-  <svelte:component this={router[$curRoute]} />
-</div>
+<vbox id="abox" class="container qc">
+</vbox>
 -->
