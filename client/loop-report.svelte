@@ -1,7 +1,35 @@
 <script>
 import { onMount } from 'svelte';
+import FIX_input from './input-fix.svelte'
 
 export let report; // loop first row
+
+let fix_start = {};
+let fix_end = {};
+let apply_btn;
+
+$:{
+  console.log(`report FIX(start) status:`,fix_start)
+  if (fix_start.cmd == 'compute') {
+    console.log(`computing elevation at fix-end...`)
+  } else {
+    if (apply_btn) apply_btn.disabled = true;
+  }
+}
+
+$:{
+  if (fix_end.cmd == 'compute') {
+    console.log(`report FIX(end) status:`,fix_end)
+    console.log(`computing elevation at fix-end...`)
+    if(apply_btn && fix_start.cmd == 'compute') {
+      apply_btn.disabled = false;
+      apply_btn.focus()
+    }
+  } else {
+    if(apply_btn) apply_btn.disabled = true;
+  }
+}
+
 
 
 onMount(function() {
@@ -15,6 +43,10 @@ function ae(q, report) {
   return ae.toFixed(3);
 }
 
+
+function compute_error() {
+  console.log(`error DH: ${fix_end.value - fix_start.value}`)
+}
 
 </script>
 
@@ -35,6 +67,36 @@ td {
 }
 .red-state {
   background-color:red; padding: 1px 3px;
+}
+
+
+hbox.qj {
+  justify-content: space-between;
+  width:100%;
+}
+
+hbox.baseline, .baseline {
+  align-items: baseline;
+}
+
+
+hfil {
+  display: inline-block;
+  flex-grow: 1;
+  height:0;
+}
+
+hfil {
+  display: inline-block;
+  flex-grow: 2;
+  height:0;
+}
+
+hss {
+  display: inline-block;
+  flex-grow: 2;
+  flex-shrink: 2;
+  height:0;
 }
 
 </style>
@@ -78,6 +140,26 @@ td {
   </tbody>
   </table>
 
-<vtop>bbbbb</vtop>
+<vbox>
+  <hbox class="qj baseline" style="margin-top:10px; padding: 0 30px;">
+    FIX(start):&ensp;
+    <FIX_input bind:status={fix_start}/>
+    &emsp;&mdash;&emsp;
+    FIX(end):&ensp;
+    <FIX_input bind:status={fix_end}/>
+    <hfil/>
+    &emsp;&rarr;&emsp;
+    <hfil/>
+    <input type="submit" on:click={compute_error}
+      on:submit={compute_error}
+      bind:this={apply_btn} disabled value=" APPLY ">
+    </hbox>
+
+  <hbox class="qj baseline" style="margin-top:10px; padding: 0 30px;">
+    dh (error): {(report?.fw_dh + report?.bw_dh).toFixed(3)}
+    &ensp;&mdash;&ensp; Actual error:
+  </hbox>
+
+</vbox>
 
 </vbox>
