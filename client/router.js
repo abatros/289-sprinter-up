@@ -37,7 +37,7 @@ export const projects = writable([]);
 export const sprinter_data = writable({xlsx2_raw:null, fileName:null, data:[]})
 export const sprinter_ ={};
 
-export const loops_data = []; // all loops.
+export const loops_data = writable([]); // all loops.
 export const sdata_timeStamp = writable(null); // signal to rebuild sdata from loops_data
 
 export const editRow_data = writable(null); // receive the row to edit

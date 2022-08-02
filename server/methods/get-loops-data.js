@@ -26,7 +26,7 @@ import {get_jobs, get_project_metadata} from '../lib/get-jobs.js';
 
 
 async function get_loops_data(projectName) {
-  const data = [];
+  const data = []; // aggregation of all legs
 
 
 
@@ -52,7 +52,9 @@ async function get_loops_data(projectName) {
       //    console.log(`ptNo:${it.fw.ptNo} sid:${it.fw.sid}`)
       console.log(`ptNo: ${it.fw.jobNo}-${it.fw.ptNo} sid:${it.fw.sid}`)
   })
+
   {
+    console.log(`get-loops-data <${projectName}> (${data.length})`)
     const it = data[data.length-1];
     console.log(`ptNo: ${it.fw.jobNo}-${it.bw.ptNo} sid:${it.bw.sid} ***`)
   }

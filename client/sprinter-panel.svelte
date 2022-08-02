@@ -186,6 +186,12 @@ function detect_double_reading(o={}) {
       if (auto) sdata[j-1].active = false;
     }
     group_dist = row.dist;
+		// unconditional:
+		if (!sdata[j].fw.sid || sdata[j].fw.sid.startsWith('*')) {
+			if (auto) sdata[j-1].active = false;
+		}
+
+
   })
 }
 

@@ -10,6 +10,7 @@ import './methods/get-projects-list.js'
 import './methods/get-jobs.js'
 import './methods/create-project.js'
 import './methods/get-loops-data.js'
+import './methods/export-csv.js'
 
 import {get_accessKeys, S3} from '294-aws-s3';
 

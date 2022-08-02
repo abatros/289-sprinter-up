@@ -99,11 +99,12 @@ export function resync_loops(loops_data, o={}) {
       if (error < 0.003* ae_) row.cat=1 // perfect
       else if (error < 0.008* ae_) row.cat=2 // good
       else if (error < 0.012* ae_) {
-        console.log(`alert@101 cat3 ptNo:${row.fw.ptNo} error:${error.toFixed(4)} ae:${(ae_*0.012).toFixed(4)}`)
+        ;(verbose >0) && console.log(`alert@101 cat3 ptNo:${row.fw.ptNo} error:${error.toFixed(4)} ae:${(ae_*0.012).toFixed(4)}`)
         row.cat=3;
       }
       else {
         row.cat = 4;
+        ;(verbose >0) &&
         console.log(`alert@102 cat4 ptNo:${row.fw.ptNo} error:${error.toFixed(4)} ae_max:${(ae_*0.012).toFixed(4)}`)
       }
     }

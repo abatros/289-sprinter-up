@@ -21,11 +21,58 @@ import Selector_ae from './selector-ae.svelte'
 
 import {resync_loops} from './lib/loops.js'
 
+//projectName.set('nobody')
+//loops_data.set([])
+
 const verbose =0;
 let sdata = []; // readings in another format
 // there is no sprinter files here.
 
 let com_data = ''; // last-col
+
+
+/*
+
+          DUPLICATE...................
+
+*/
+
+function detect_double_reading(sdata, o={}) {
+  const {verbose=1, auto=true, threshold = 0.5} = o;
+
+
+  let group_dist =0; // to group legs with similar distance to predict retry
+
+  sdata.forEach((row,j) =>{
+    row.wrong_reading = '';
+		row.dist = (row.fw.dist + row.bw.dist)/2;
+		//;(verbose >0) && console.log(`detect-double-reading@179 group_dist:${group_dist}`,row)
+    if (Math.abs(row.dist - group_dist) < threshold) { // 50cm
+      /**
+      // We predict it's a wrong/duplicate reading
+      **/
+			;(verbose >0) && console.log(`detect-double-reading@179 j:${j} sid:${row.fw.sid}`,row)
+      assert(j>0, `fatal@54 leg[${j}]:${row.dist} g:${group_dist}`)
+      if (Math.abs(row.fw.dh + row.bw.dh) > 0.005) {
+        sdata[j-1].wrong_reading = 'wrong-reading';
+        sdata[j].wrong_reading = 'wrong-reading';
+        if (auto) sdata[j-1].active = false;
+        console.log(`deactivate ${sdata[j-1].fw.ptNo} `,sdata[j-1])
+      }
+    }
+    group_dist = row.dist;
+
+    // unconditional:
+    if (!sdata[j].fw.sid || sdata[j].fw.sid.startsWith('*')) {
+      if (auto) sdata[j].active = false;
+      console.log(`deactivate ${sdata[j].fw.ptNo} `,sdata[j])
+    }
+
+
+  })
+  return sdata;
+}
+
 
 $: {
   console.log(`autorun@19 at:`,$sdata_timeStamp)
@@ -40,9 +87,16 @@ $: {
     console.log(`${row.fw.dist.toFixed(2)} ${row.sum} ptNo:${row.fw.ptNo} (${row.fw.sid})`)
   })*/
 
-  resync_loops(loops_data, {verbose:0, com_data});
-  sdata = loops_data;
-  console.log(`autorun@36 loops_data (${loops_data.length}) sdata (${sdata.length})`)
+  loops_data.set(detect_double_reading($loops_data))
+  $loops_data.forEach(leg =>{
+    if (!leg.active) console.log(`ptNo:${leg.fw.ptNo}`,{leg})
+  })
+  resync_loops($loops_data, {verbose:0, com_data});
+  sdata = $loops_data;
+  $loops_data.forEach(leg =>{
+    if (!leg.active) console.log(`ptNo:${leg.fw.ptNo}`,{leg})
+  })
+  console.log(`autorun@36 loops_data (${$loops_data.length}) sdata (${sdata.length})`)
   if (false) {
   }
 }
@@ -61,11 +115,12 @@ onMount(function(){
 
 //    console.log({data})
 //    sdata.push(...retv.data)
-    loops_data = retv.data;
+//    loops_data = retv.data;
+    loops_data.set(retv.data)
     sdata_timeStamp.set(new Date())
 return;
     resync_loops({verbose:0})
-    sdata = loops_data;
+    sdata = $loops_data;
     console.log(`sdata (${sdata.length}) is ready.`)
     sdata.forEach(it=>{it.loop_Marker = it.loop_Marker || ''}) // remove undefined
 //    sdata = sdata;
@@ -77,13 +132,13 @@ return;
 
 function resync_project() {
   const _etime = new Date();
-  console.log(`resync_project@69 loops_data (${loops_data.length}) sdata (${sdata.length})`)
+  console.log(`resync_project@69 loops_data (${$loops_data.length}) sdata (${sdata.length})`)
   sdata_timeStamp.set(new Date())
 return;
 
   resync_loops({verbose:0});
   console.log(`resync_project done etime:${(new Date().getTime() - _etime.getTime())/1000} ms.`)
-  sdata = loops_data;
+  sdata = $loops_data;
 }
 
 // ---------------------------------------------------------------------------
@@ -148,11 +203,11 @@ function editRow_apply() {
 
 function recompute_step_error() {
   console.log(`recompute_step_error`)
-  loops_data.forEach(row =>{
+  $loops_data.forEach(row =>{
     row.com = 'xxx'
   })
 
-  sdata = loops_data;
+  sdata = $loops_data;
 
 }
 
@@ -217,7 +272,7 @@ const group_ae = {
 let cat_ae = 0;
 
 function change_ae() {
-  console.log(`ae-changed`)
+  console.log(`ae-changed`);
 }
 
 // ---------------------------------------------------------------------------
@@ -410,7 +465,7 @@ td .qc {
       <td colspan="8" style="text-align:center">
         <vbox style="border:1px solid brown;padding:10px;">
 
-          <Loop_report report={row.uplink?.report} />
+          <Loop_report report={row.uplink?.report} legs={sdata} projectName={$projectName}/>
 
         </vbox>
       </td>

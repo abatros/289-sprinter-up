@@ -56,7 +56,7 @@ Meteor.methods({
 
 **/
 
-function sprinter_data(loops) {
+function sprinter_data_Obsolete(loops) {
   const _loops = [];
   loops.forEach(loop =>{
     const _loop = []; _loops.push(_loop);

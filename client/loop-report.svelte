@@ -2,7 +2,19 @@
 import { onMount } from 'svelte';
 import FIX_input from './input-fix.svelte'
 
+
+import {projects,
+  //projectName,
+    curRoute, sprinter_data, sprinter_,
+      sdata_timeStamp,
+      loops_data,
+      editRow_data, // reactive var
+    } from './router.js';
+
+
 export let report; // loop first row
+export let legs;
+export let projectName
 
 let fix_start = {};
 let fix_end = {};
@@ -46,6 +58,17 @@ function ae(q, report) {
 
 function compute_error() {
   console.log(`error DH: ${fix_end.value - fix_start.value}`)
+}
+
+function export_csv() {
+  console.log(`export-csv report sdata `, {report}, $sprinter_data)
+
+  console.log(`export-csv project:<${projectName}> (${loops_data.length}) first-station:${report.startp} last-station:${report.endp}`)
+
+  Meteor.call('export-csv', {legs:$loops_data, projectName, report}, (error, data) =>{
+    if (error) throw error;
+    console.log('export done check the bucket.',data)
+  })
 }
 
 </script>
@@ -158,6 +181,11 @@ hss {
   <hbox class="qj baseline" style="margin-top:10px; padding: 0 30px;">
     dh (error): {(report?.fw_dh + report?.bw_dh).toFixed(3)}
     &ensp;&mdash;&ensp; Actual error:
+
+    <input type="submit" on:click={export_csv}
+      on:submit={export_csv}
+      value=" export CSV ">
+
   </hbox>
 
 </vbox>
